@@ -602,6 +602,7 @@ server:
   ingress:
     enabled: true
     annotations:
+      kubernetes.io/ingress.class: "alb"
       alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
       alb.ingress.kubernetes.io/success-codes: 200-399
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
@@ -615,7 +616,7 @@ server:
       alb.ingress.kubernetes.io/target-type: ip
       alb.ingress.kubernetes.io/tags: ${argocd_aws_tags}
     labels: {}
-    ingressClassName: "alb"
+    ingressClassName: ""
 
     ## Argo Ingress.
     ## Hostnames must be provided if Ingress is enabled.
@@ -653,6 +654,7 @@ server:
     enabled: true
     isAWSALB: true
     annotations: 
+      kubernetes.io/ingress.class: "alb"
       alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
       alb.ingress.kubernetes.io/success-codes: 200-399
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
@@ -666,7 +668,7 @@ server:
       alb.ingress.kubernetes.io/target-type: ip
       alb.ingress.kubernetes.io/tags: ${argocd_aws_tags}
     labels: {}
-    ingressClassName: "alb"
+    ingressClassName: ""
     awsALB:
       ## Service Type if isAWSALB is set to true
       ## Can be of type NodePort or ClusterIP depending on which mode you are
