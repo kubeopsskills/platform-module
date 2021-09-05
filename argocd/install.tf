@@ -5,11 +5,12 @@ resource "kubectl_manifest" "namespace" {
 data "template_file" "argocd_template" {
   template = file("${path.module}/installation/${var.cloud_type}/argocd.tpl")
   vars = {
-    argocd_aws_certificate_arn = var.argocd_aws_certificate_arn
-    argocd_aws_domain          = var.argocd_aws_domain
-    argocd_aws_subnets         = var.argocd_aws_subnets
-    argocd_aws_sg              = var.argocd_aws_sg
-    argocd_aws_tags            = var.argocd_aws_tags
+    argocd_levis_plugin_container_image = var.argocd_levis_plugin_container_image
+    argocd_aws_certificate_arn          = var.argocd_aws_certificate_arn
+    argocd_aws_domain                   = var.argocd_aws_domain
+    argocd_aws_subnets                  = var.argocd_aws_subnets
+    argocd_aws_sg                       = var.argocd_aws_sg
+    argocd_aws_tags                     = var.argocd_aws_tags
   }
 }
 

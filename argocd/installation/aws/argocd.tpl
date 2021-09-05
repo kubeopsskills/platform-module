@@ -59,7 +59,7 @@ controller:
   args:
     statusProcessors: "20"
     operationProcessors: "10"
-    appResyncPeriod: "180"
+    appResyncPeriod: "15"
     selfHealTimeout: "5"
     repoServerTimeoutSeconds: "60"
 
@@ -605,6 +605,7 @@ server:
       kubernetes.io/ingress.class: "alb"
       alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
       alb.ingress.kubernetes.io/success-codes: 200-399
+      alb.ingress.kubernetes.io/backend-protocol: HTTPS
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/security-groups: ${argocd_aws_sg}
@@ -657,6 +658,7 @@ server:
       kubernetes.io/ingress.class: "alb"
       alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
       alb.ingress.kubernetes.io/success-codes: 200-399
+      alb.ingress.kubernetes.io/backend-protocol: HTTPS
       alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
       alb.ingress.kubernetes.io/scheme: internet-facing
       alb.ingress.kubernetes.io/security-groups: ${argocd_aws_sg}
@@ -1030,24 +1032,23 @@ repoServer:
   ## Use init containers to configure custom tooling
   ## https://argoproj.github.io/argo-cd/operator-manual/custom_tools/
   ## When using the volumes & volumeMounts section bellow, please comment out those above.
-  #  volumes:
-  #  - name: custom-tools
-  #    emptyDir: {}
-  #
-  #  initContainers:
-  #  - name: download-tools
-  #    image: alpine:3.8
-  #    command: [sh, -c]
-  #    args:
-  #      - wget -qO- https://get.helm.sh/helm-v2.16.1-linux-amd64.tar.gz | tar -xvzf - &&
-  #        mv linux-amd64/helm /custom-tools/
-  #    volumeMounts:
-  #      - mountPath: /custom-tools
-  #        name: custom-tools
-  #  volumeMounts:
-  #  - mountPath: /usr/local/bin/helm
-  #    name: custom-tools
-  #    subPath: helm
+    volumes:
+    - name: levis-tools
+      emptyDir: {}
+  
+    initContainers:
+    - name: levis
+      image: ${argocd_levis_plugin_container_image}
+      command: [sh, -c]
+      args:
+      - cp /opt/levis /tmp/levis
+      volumeMounts:
+      - name: levis-tools
+        mountPath: /tmp
+    volumeMounts:
+    - mountPath: /usr/local/bin/levis
+      name: levis-tools
+      subPath: levis
 
 ## Argo Configs
 configs:
