@@ -3,17 +3,17 @@ kind: Deployment
 metadata:
   labels:
     app.kubernetes.io/component: repo-server
-    app.kubernetes.io/name: argocd-repo-server
+    app.kubernetes.io/name: argo-cd-argocd-repo-server
     app.kubernetes.io/part-of: argocd
-  name: argocd-repo-server
+  name: argo-cd-argocd-repo-server
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: argocd-repo-server
+      app.kubernetes.io/name: argo-cd-argocd-repo-server
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: argocd-repo-server
+        app.kubernetes.io/name: argo-cd-argocd-repo-server
     spec:
       affinity:
         podAntiAffinity:
@@ -21,7 +21,7 @@ spec:
           - podAffinityTerm:
               labelSelector:
                 matchLabels:
-                  app.kubernetes.io/name: argocd-repo-server
+                  app.kubernetes.io/name: argo-cd-argocd-repo-server
               topologyKey: kubernetes.io/hostname
             weight: 100
           - podAffinityTerm:

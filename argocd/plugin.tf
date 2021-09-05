@@ -1,5 +1,5 @@
 data "template_file" "levis_plugin_patch" {
-  template = file("${path.module}/installation/${var.cloud_type}/plugin/deployment-patch.tpl")
+  template = file("${path.module}/installation/${var.cloud_type}/plugin/deployment_patch.tpl")
   vars = {
     argocd_levis_plugin_container_image = var.argocd_levis_plugin_container_image
   }
