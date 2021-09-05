@@ -3,7 +3,7 @@ data "template_file" "levis_plugin_patch" {
   vars = {
     argocd_levis_plugin_container_image = var.argocd_levis_plugin_container_image
   }
-  depends_on = [module.argocd]
+  depends_on = [helm_release.argocd]
 }
 
 resource "kubectl_manifest" "argocd_levis_plugin" {

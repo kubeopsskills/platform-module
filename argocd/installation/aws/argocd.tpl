@@ -600,17 +600,29 @@ server:
     automountServiceAccountToken: true
 
   ingress:
-    enabled: false
-    annotations: {}
+    enabled: true
+    annotations:
+      alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
+      alb.ingress.kubernetes.io/success-codes: 200-399
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/security-groups: ${argocd_aws_sg}
+      alb.ingress.kubernetes.io/subnets: ${argocd_aws_subnets}
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: '10'
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+      alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/tags: ${argocd_aws_tags}
     labels: {}
-    ingressClassName: ""
+    ingressClassName: "alb"
 
     ## Argo Ingress.
     ## Hostnames must be provided if Ingress is enabled.
     ## Secrets must be manually created in the namespace
     ##
     hosts:
-      []
+      - ${argocd_aws_domain}
       # - argocd.example.com
     paths:
       - /
@@ -638,19 +650,30 @@ server:
   # dedicated ingress for gRPC as documented at
   # https://argoproj.github.io/argo-cd/operator-manual/ingress/
   ingressGrpc:
-    enabled: false
-    isAWSALB: false
-    annotations: {}
+    enabled: true
+    isAWSALB: true
+    annotations: 
+      alb.ingress.kubernetes.io/certificate-arn: ${argocd_aws_certificate_arn}
+      alb.ingress.kubernetes.io/success-codes: 200-399
+      alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/security-groups: ${argocd_aws_sg}
+      alb.ingress.kubernetes.io/subnets: ${argocd_aws_subnets}
+      alb.ingress.kubernetes.io/healthcheck-interval-seconds: '10'
+      alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '5'
+      alb.ingress.kubernetes.io/healthy-threshold-count: '2'
+      alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
+      alb.ingress.kubernetes.io/target-type: ip
+      alb.ingress.kubernetes.io/tags: ${argocd_aws_tags}
     labels: {}
-    ingressClassName: ""
-
+    ingressClassName: "alb"
     awsALB:
       ## Service Type if isAWSALB is set to true
       ## Can be of type NodePort or ClusterIP depending on which mode you are
       ## are running. Instance mode needs type NodePort, IP mode needs type
       ## ClusterIP
       ## Ref: https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/how-it-works/#ingress-traffic
-      serviceType: NodePort
+      serviceType: ClusterIP
       # This tells AWS to send traffic from the ALB using HTTP2. Can use GRPC as well if you want to leverage GRPC specific features
       backendProtocolVersion: HTTP2
 
@@ -659,8 +682,7 @@ server:
     ## Secrets must be manually created in the namespace
     ##
     hosts:
-      []
-      # - argocd.example.com
+      - ${argocd_aws_domain}
     paths:
       - /
     pathType: Prefix
