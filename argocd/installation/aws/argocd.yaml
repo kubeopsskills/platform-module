@@ -956,7 +956,7 @@ repoServer:
   ## Additional volumeMounts to the repo server main container.
   # volumeMounts: []
 
-  # ## Additional volumes to the repo server pod.
+  ## Additional volumes to the repo server pod.
   # volumes: []
 
   ## Node selectors and tolerations for server scheduling to nodes with taints
@@ -1032,23 +1032,24 @@ repoServer:
   ## Use init containers to configure custom tooling
   ## https://argoproj.github.io/argo-cd/operator-manual/custom_tools/
   ## When using the volumes & volumeMounts section below, please comment out those above.
-    volumes:
-    - name: levis-tools
-      emptyDir: {}
+  volumes:
+  - name: levis-tools
+    emptyDir: {}
   
-    initContainers:
-    - name: levis
-      image: ${argocd_levis_plugin_container_image}
-      command: [sh, -c]
-      args:
-      - cp /opt/levis /tmp/levis
-      volumeMounts:
-      - name: levis-tools
-        mountPath: /tmp
+  initContainers:
+  - name: levis
+    image: ${argocd_levis_plugin_container_image}
+    command: [sh, -c]
+    args:
+    - cp /opt/levis /tmp/levis
     volumeMounts:
-    - mountPath: /usr/local/bin/levis
-      name: levis-tools
-      subPath: levis
+    - name: levis-tools
+      mountPath: /tmp
+  
+  volumeMounts:
+  - mountPath: /usr/local/bin/levis
+    name: levis-tools
+    subPath: levis
 
 ## Argo Configs
 configs:
