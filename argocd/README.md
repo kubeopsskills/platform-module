@@ -14,15 +14,17 @@
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_argocd"></a> [argocd](#module\_argocd) | git@github.com:kubeopsskills/kubernetes-module//helm | n/a |
 
 ## Resources
 
 | Name | Type |
 |------|------|
-| [kubectl_manifest.argocd](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubectl_manifest.argocd_ingress](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [kubectl_manifest.argocd_levis_plugin](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
+| [kubectl_manifest.namespace](https://registry.terraform.io/providers/gavinbunney/kubectl/latest/docs/resources/manifest) | resource |
 | [template_file.ingress](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 | [template_file.levis_plugin_patch](https://registry.terraform.io/providers/hashicorp/template/latest/docs/data-sources/file) | data source |
 

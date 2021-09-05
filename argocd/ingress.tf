@@ -7,7 +7,7 @@ data "template_file" "ingress" {
     argocd_aws_sg              = var.argocd_aws_sg
     argocd_aws_tags            = var.argocd_aws_tags
   }
-  depends_on = [kubectl_manifest.argocd]
+  depends_on = [module.argocd]
 }
 
 resource "kubectl_manifest" "argocd_ingress" {
