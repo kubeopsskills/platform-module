@@ -648,7 +648,7 @@ server:
       # - secretName: argocd-tls-certificate
       #   hosts:
       #     - argocd.example.com
-    https: false
+    https: true
   # dedicated ingress for gRPC as documented at
   # https://argoproj.github.io/argo-cd/operator-manual/ingress/
   ingressGrpc:
@@ -709,7 +709,7 @@ server:
       # - secretName: argocd-tls-certificate
       #   hosts:
       #     - argocd.example.com
-    https: false
+    https: true
 
   # Create a OpenShift Route with SSL passthrough for UI and CLI
   # Consider setting 'hostname' e.g. https://argocd.apps-crc.testing/ using your Default Ingress Controller Domain
