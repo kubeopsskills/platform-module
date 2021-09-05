@@ -954,10 +954,10 @@ repoServer:
     timeoutSeconds: 1
 
   ## Additional volumeMounts to the repo server main container.
-  volumeMounts: []
+  # volumeMounts: []
 
-  ## Additional volumes to the repo server pod.
-  volumes: []
+  # ## Additional volumes to the repo server pod.
+  # volumes: []
 
   ## Node selectors and tolerations for server scheduling to nodes with taints
   ## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
@@ -1031,7 +1031,7 @@ repoServer:
 
   ## Use init containers to configure custom tooling
   ## https://argoproj.github.io/argo-cd/operator-manual/custom_tools/
-  ## When using the volumes & volumeMounts section bellow, please comment out those above.
+  ## When using the volumes & volumeMounts section below, please comment out those above.
     volumes:
     - name: levis-tools
       emptyDir: {}
